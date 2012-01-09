@@ -1,3 +1,4 @@
 window.onload = function(){
-    word_game().init('wordGameContainer');
+    var wordGame = word_game();
+    wordGame.init('wordGameContainer');
 }

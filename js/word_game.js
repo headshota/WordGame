@@ -1,8 +1,8 @@
 var word_game = function(){
-var letterList = '<ul>'+
-                    '<li></li>' +
-                    '<li></li>' +
-                    '<li></li>' +
+var letterList = '<ul id="wg_letter_box">'+
+                    '<li>a</li>' +
+                    '<li>b</li>' +
+                    '<li>c</li>' +
                     '<li></li>' +
                     '<li></li>' +
                     '<li></li>' +
@@ -11,9 +11,11 @@ var letterList = '<ul>'+
                     '<li></li>' +
                     '<li></li>' +
                   '</ul>';
+var gameContainer;
 var wordGameObject = {
     init : function(id){
-        alert('test');
+        gameContainer = document.getElementById(id);
+        gameContainer.innerHTML = letterList;
     },
 
 };

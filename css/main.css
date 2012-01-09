@@ -1,5 +1,4 @@
-
-dy div span applet object iframe
+body div span applet object iframe
 h1 h2 h3 h4 h5 h6 p blockquote pre
 a abbr acronym address big cite code
 del dfn em img ins kbd q s samp
@@ -26,7 +25,6 @@ footer header hgroup menu nav section {
 }
 body {
     line-height: 1;
-    background-color:red;
 }
 ol ul {
     list-style: none;
@@ -42,4 +40,14 @@ q:before q:after {
 table {
     border-collapse: collapse;
         border-spacing: 0;
+}
+
+#wg_letter_box li{
+   float:left;
+   list-style:none;
+   width:12px;
+   height:12px;
+   padding: 8px 10px 12px 10px;
+   border:1px solid black;
+   text-transform: uppercase;
 }
