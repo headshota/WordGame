@@ -1,3 +1,7 @@
+/**
+ * Word Game
+ * Shota Bakuradze
+ */
 var word_game = function(){
 var letterListHTML = '<ul id="wg_letter_box">'+
                     '<li></li>' +
@@ -13,6 +17,8 @@ var letterListHTML = '<ul id="wg_letter_box">'+
                   '</ul>';
 var wordInputHTML = '<div id="wg_wordInputBox"><input id="wg_wordTextbox" type="text" /></div>';
 var Alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+//var Alphabet = {'a' : 1, 'b' : 1, 'c' : 1, 'd' : 1, 'e' : 1, 'f' : 1, 'g' : 1, 'h' : 1, 'i' : 1, 'j' : 1, 'k' : 1, 'l' : 1, 'm' : 1, 'n' : 1, 'o' : 1, 'p' : 1, 'q' : 1, 'r' : 1, 's' : 1, 't' : 1, 'u' : 1, 'v' : 1, 'w' : 1, 'x' : 1, 'y' : 1, 'z' : 1};
+var dictionary = {'cat' : true, 'dog' : true, 'rat' : true, 'bat' : true, 'sleep' : true, 'eat' : true, 'drink' : true, 'click' : true, 'rent' : true, 'net' : true, 'let' : true, 'lit' : true};
 var gameContainer;
 var letterList = [];
 var letterBox;
@@ -51,6 +57,7 @@ function startLetterTimer(){
 			letterList.push(generateRandomLetter());
 			redraw();			
 		}
+		clearTimeout(letterTimer);
 		startLetterTimer();
 	}, 6000);
 }
@@ -68,8 +75,11 @@ function onWordTextboxKeyPress(e){
 function processTextbox(val){
 	var tmpArr = letterList;
 	var word = checkLetterExistanceAndQuantity(val);
-	if(word){		
-		checkWordAgainsDictionary(word);
+	if(word){
+		letterBox.value = '';		
+		if(checkWordAgainsDictionary(word)){
+			alert(word + ' is a correct word!!!');
+		}
 	}
 	
 	for(var i=0; i < word.length; i++){
@@ -81,9 +91,12 @@ function processTextbox(val){
 }
 
 function checkWordAgainsDictionary(word){
-	//clearTimeout(letterTimer);
-	//startLetterTimer();
-	wordTextbox.value = '';
+	if(dictionary[word]){
+	
+		return true;
+	}
+	
+	return false;
 }
 
 function checkLetterExistanceAndQuantity(val){
