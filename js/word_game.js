@@ -21,21 +21,30 @@ var word_game = function() {
 	// input textbox template
     var wordInputHTML = '<div id="wg_wordInputBox"><input id="wg_wordTextbox" type="text" /></div>';
 
+	// log element
+	
+	var logTmpl = '<div id="wg_logBox"></div>';
+	
+	var scoreTmpl = '<div id="wg_scoreBox"></div>';
+
     var Alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
     //var Alphabet = {'a' : 1, 'b' : 1, 'c' : 1, 'd' : 1, 'e' : 1, 'f' : 1, 'g' : 1, 'h' : 1, 'i' : 1, 'j' : 1, 'k' : 1, 'l' : 1, 'm' : 1, 'n' : 1, 'o' : 1, 'p' : 1, 'q' : 1, 'r' : 1, 's' : 1, 't' : 1, 'u' : 1, 'v' : 1, 'w' : 1, 'x' : 1, 'y' : 1, 'z' : 1};
 	var dictionary = {
-        'cat': true,
-        'dog': true,
-        'rat': true,
-        'bat': true,
-        'sleep': true,
-        'eat': true,
-        'drink': true,
-        'click': true,
-        'rent': true,
-        'net': true,
-        'let': true,
-        'lit': true
+        'cat'	: true,
+        'dog'	: true,
+        'rat'	: true,
+        'bat'	: true,
+        'sleep'	: true,
+        'eat'	: true,
+        'drink'	: true,
+        'click'	: true,
+        'rent'	: true,
+        'net'	: true,
+        'let'	: true,
+        'lit'	: true,
+		'fox'	: true,
+		'ox' 	: true,
+		'oak'	:true
     };
 
 	// cache gameContainer
@@ -48,7 +57,14 @@ var word_game = function() {
     var letterTimer;
 	// input textbox html element
     var wordTextbox;
+	// letters in the input box;
     var inputLetters = [];
+	// log html element
+	var log;
+	// score htmlElement
+	var scoreElement;
+	// store overal score;
+	var userScore = 0;
 
     
     function redraw() {
@@ -101,11 +117,8 @@ var word_game = function() {
     function processTextbox(val) {
         var tmpArr = letterList;
         var word = checkLetterExistanceAndQuantity(val);
-        if (word) {
-            letterBox.value = '';
-            if (checkWordAgainsDictionary(word)) {
-                alert(word + ' is a correct word!!!');
-            }
+        if (word) {	           
+            checkWordAgainsDictionary(word);
         }
 
         for (var i = 0; i < word.length; i++) {
@@ -115,17 +128,8 @@ var word_game = function() {
         }
         redraw();
     }
-
-    function checkWordAgainsDictionary(word) {
-        if (dictionary[word]) {
-
-            return true;
-        }
-
-        return false;
-    }
-
-    function checkLetterExistanceAndQuantity(val) {
+    
+	function checkLetterExistanceAndQuantity(val) {
         var tmpArr = [];
         var word = '';
         for (var i = 0; i < letterList.length; i++) {
@@ -141,20 +145,44 @@ var word_game = function() {
                 return false;
             }
         }
-
+		wordTextbox.value = '';
         return word;
     }
+    
+	function checkWordAgainsDictionary(word) {
+        if (dictionary[word]) {
+			calculateAndAsignScore(word);
+            return true;
+        }
+        return false;
+    }
 
-    var wordGameObject = {
+	function calculateAndAsignScore(word){
+		var score = word.length;
+		userScore = userScore + score;
+		renewScore();
+		addLog(word + ': +' + score);
+	}
 	
+	function renewScore(){
+		scoreElement.innerHTML = 'score: ' + userScore;
+	}
+	
+	function addLog(message){
+		log.innerHTML = message + '<br>' + log.innerHTML;
+	}
+	
+    var wordGameObject = {	
 		/** public method init, should be called to initialize the game **/
         init: function(id) {
-            gameContainer = document.getElementById(id);
-            gameContainer.innerHTML = letterListHTML + wordInputHTML;
-            letterBox = document.getElementById('wg_letter_box');
-            wordTextbox = document.getElementById('wg_wordTextbox');
-            wordTextbox.onkeypress = onWordTextboxKeyPress;
-
+            gameContainer 			= document.getElementById(id);
+            gameContainer.innerHTML = letterListHTML + wordInputHTML + logTmpl + scoreTmpl;
+            letterBox 				= document.getElementById('wg_letter_box');
+            wordTextbox 			= document.getElementById('wg_wordTextbox');
+			log 					= document.getElementById('wg_logBox');
+			scoreElement			= document.getElementById('wg_scoreBox');
+			renewScore();
+            wordTextbox.onkeypress 	= onWordTextboxKeyPress;
             for (var i = 0; i < 10; i++) {
                 letterList.push(generateRandomLetter());
             }

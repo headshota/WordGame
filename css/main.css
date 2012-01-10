@@ -64,7 +64,21 @@ table {
 }
 
 #wg_wordTextbox{
-width:338px;
-border:1px solid black;
-height:20px;
+	width:338px;
+	border:1px solid black;
+	height:20px;
+	text-transform:uppercase;
+}
+
+#wg_logBox{
+	width:318px;
+	height:200px;
+	border:1px solid black;
+	overflow-x: auto;
+	margin-top:10px;
+	padding: 5px 10px 3px 10px;
+}
+
+#wg_scoreBox{
+	margin-top:10px;
 }
