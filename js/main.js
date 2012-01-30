@@ -1,4 +1,6 @@
 window.onload = function(){
     var wordGame = word_game();
-    wordGame.init('wordGameContainer');
+    wordGame.loadDictionary('dictionary.txt', function(){
+        wordGame.init('wordGameContainer');
+    });
 }

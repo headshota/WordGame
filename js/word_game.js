@@ -28,25 +28,7 @@ var word_game = function() {
 	var scoreTmpl = '<div id="wg_scoreBox"></div>';
 
     var Alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-    //var Alphabet = {'a' : 1, 'b' : 1, 'c' : 1, 'd' : 1, 'e' : 1, 'f' : 1, 'g' : 1, 'h' : 1, 'i' : 1, 'j' : 1, 'k' : 1, 'l' : 1, 'm' : 1, 'n' : 1, 'o' : 1, 'p' : 1, 'q' : 1, 'r' : 1, 's' : 1, 't' : 1, 'u' : 1, 'v' : 1, 'w' : 1, 'x' : 1, 'y' : 1, 'z' : 1};
-	var dictionary = {
-        'cat'	: true,
-        'dog'	: true,
-        'rat'	: true,
-        'bat'	: true,
-        'sleep'	: true,
-        'eat'	: true,
-        'drink'	: true,
-        'click'	: true,
-        'rent'	: true,
-        'net'	: true,
-        'let'	: true,
-        'lit'	: true,
-		'fox'	: true,
-		'ox' 	: true,
-		'oak'	:true
-    };
-
+	var dictionary = []; 
 	// cache gameContainer
     var gameContainer;
  	// store current letters in the letter list
@@ -188,6 +170,21 @@ var word_game = function() {
             }
             redraw();
             startLetterTimer();
+        },
+        loadDictionary : function(file, callback){
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', file, true);
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4){
+                    var tmpArr = xhr.responseText.split('\n');
+                    for(var i=0; i< tmpArr.length; i++){
+                        dictionary[tmpArr[i]] = true;
+                    }
+                    //console.log(dictionary)
+                    callback();
+                }
+            }
+            xhr.send(null);
         }
     };
 
