@@ -28,6 +28,11 @@ var word_game = function() {
 	var scoreTmpl = '<div id="wg_scoreBox"></div>';
 
     var Alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+    
+    var Frequencies = [8.167, 1.492, 2.782, 4.253, 13.0001, 2.228, 2.015, 6.094, 6.966, 0.153, 0.772, 4.025, 2.406, 6.749, 7.507, 1.929, 0.095, 5.987, 6.327, 9.056, 2.758, 0.978, 2.360, 0.150, 1.974, 0.074]
+
+    var cumFrequencies = [];
+
 	var dictionary = []; 
 	// cache gameContainer
     var gameContainer;
@@ -58,6 +63,17 @@ var word_game = function() {
         }
     }
     
+
+    function generateCumIndex() {
+        var sum = 0;
+        for(var i = 0; i < Frequencies.length; i++) {
+            sum += Frequencies[i];
+            cumFrequencies.push(sum);
+        }
+    }
+	
+
+
     function findFirstEmptyCell() {
         var nodes = letterList.childNodes;
 
@@ -69,11 +85,17 @@ var word_game = function() {
         return null;
     }
 	
+
     function generateRandomLetter() {
-        var index = Math.floor(Math.random() * 25);
-        var letter = Alphabet[index];
+        var index = Math.random() * 100;
+        var i = 0;
+        while(cumFrequencies[i] < index) {
+            i++;
+        }
+        var letter = Alphabet[i];
         return letter;
     }
+
 
     function startLetterTimer() {
         letterTimer = setTimeout(function() {
@@ -163,6 +185,7 @@ var word_game = function() {
             wordTextbox 			= document.getElementById('wg_wordTextbox');
 			log 					= document.getElementById('wg_logBox');
 			scoreElement			= document.getElementById('wg_scoreBox');
+            generateCumIndex();
 			renewScore();
             wordTextbox.onkeypress 	= onWordTextboxKeyPress;
             for (var i = 0; i < 10; i++) {
